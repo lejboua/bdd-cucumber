@@ -15,7 +15,13 @@ end
 Then /I should see "(.*)" before "(.*)"/ do |e1, e2|
   #  ensure that that e1 occurs before e2.
   #  page.body is the entire content of the page as a string.
-  flunk "Unimplemented"
+  movie_rows = page.find('table#movies tbody').all('tr')
+  # first <td> is the title
+  movie_titles = movie_rows.map { |tr| tr.all('td').first.text }
+  e1_pos = movie_titles.index e1
+  e2_pos = movie_titles.index e2
+  e1_pos.should < e2_pos
+  # flunk "Unimplemented"
 end
 
 # Make it easier to express checking or unchecking several boxes at once
